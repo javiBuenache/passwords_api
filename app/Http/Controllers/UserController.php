@@ -9,6 +9,27 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+
+    public function login(Request $request)
+    {
+        $user = User::where('email', '=', $request->email)->first();
+        $token = new Token($user->email);
+        $encoded_token = $token->encode();
+
+        if($user->password == $request->password)
+        {
+            return response()->json([
+                "token" => $encoded_token,
+            ], 200 );
+        
+        }else
+        {
+            return response()->json([
+                "message" => "unauthorized"
+            ], 401);
+        }
+    }
+
     /**
      * Display a listing of the resource.
      *
