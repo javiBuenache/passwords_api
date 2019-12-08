@@ -107,7 +107,11 @@ class PasswordController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $password = Password::where('id','=', $id)->first();
+        //var_dump($request->title); exit;
+        $password->title = $request->title;
+        $password->password= $request->password;
+        $password->save();
     }
 
     /**
