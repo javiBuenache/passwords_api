@@ -50,23 +50,24 @@ class PasswordController extends Controller
         $user = User::where('email', '=', $user_email)->first();
 
         $category = Category::where('name', $request->category)->first();
+
         if($category->user_id == $user->id)
         {
-        $password = new Password();
-        $password->title = $request->title;
-        $password->password = $request->password;
-        $password->category_id = $category->id;             
-        $password->save();
+            $password = new Password();
+            $password->title = $request->title;
+            $password->password = $request->password;
+            $password->category_id = $category->id;             
+            $password->save();
 
-        return response()->json([
-            "message" => "contrasena creada"
-        ], 201 );
+            return response()->json([
+                "message" => "contrasena creada"
+            ], 201 );
 
          } else
         {
-        return response()->json([
-            "message" => " categoría no encontrada"
-        ], 400);
+            return response()->json([
+                "message" => " categoría no encontrada"
+            ], 400);
         }
     }
 

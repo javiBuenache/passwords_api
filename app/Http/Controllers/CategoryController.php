@@ -107,7 +107,28 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data_token = $request->header('Authorization');
+        $token = new Token();
+        $user_email = $token->decode($data_token);
+        $user = User::where('email', '=', $user_email)->first();
+
+        $category = Category::find($id);                 
+        
+        if($user->id == $category->user_id)
+        {            
+            $category->name = $request->name;       
+            $category->save();
+            return response()->json([
+                "message" => "category actualizada",
+    
+            ], 200);
+        }else{
+            return response()->json([
+                "message" => "no tiene permisos",
+    
+            ], 401);
+  
+        }
     }
 
     /**
