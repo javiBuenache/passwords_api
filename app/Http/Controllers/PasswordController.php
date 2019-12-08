@@ -34,7 +34,11 @@ class PasswordController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $password = new Password();
+        $password->title = $request->title;
+        $password->password = $request->password;
+        $password->category_id = $category->id;             
+        $password->save();
     }
 
     /**
