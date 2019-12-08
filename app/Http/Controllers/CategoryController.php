@@ -16,7 +16,7 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::all();
-        
+
         return response()->json([
             "Todas las categorias" => $categories
         ], 200);
@@ -93,6 +93,27 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $data_token = $request->header('Authorization');
+        $token = new Token();
+        $user_email = $token->decode($data_token);
+        $user = User::where('email', '=', $user_email)->first();
+
+        $category = Category::find($id);
+        $user= $category->user;
+
+        if( $user->id == $category->user_id)
+        {
+            $category->delete();
+
+            return response()->json([
+            "message" => "categoria borrada"
+        ], 201 );
+        }
+        else
+        {
+            return response()->json([
+                "message" => "no se puede borrar una categoría"
+            ], 401);
+        }
     }
 }
