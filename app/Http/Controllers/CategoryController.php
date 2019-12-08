@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
+
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -38,6 +40,11 @@ class CategoryController extends Controller
         $category->name = $request->name;
         $category->user_id = $user->id;
         $category->save();
+
+        return response()->json([
+            "message" => "categoria creada"
+            
+        ], 200);
     }
 
     /**
