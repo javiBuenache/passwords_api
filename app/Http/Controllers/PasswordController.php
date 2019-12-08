@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Password;
+use App\Category;
+
 use Illuminate\Http\Request;
+
 
 class PasswordController extends Controller
 {
@@ -39,6 +43,10 @@ class PasswordController extends Controller
         $password->password = $request->password;
         $password->category_id = $category->id;             
         $password->save();
+
+        return response()->json([
+            "message" => "contrasena creada"
+        ], 201 );
     }
 
     /**
