@@ -13,9 +13,8 @@ class CategoryController extends Controller
 
     public function show_all_passwords_and_categories(Request $request)
     {
-        $data_token = $request->header('Authorization');
-        $token = new Token();
-        $user_email = $token->decode($data_token);
+        $user = $request->user; 
+
         $user = User::where('email', '=', $user_email)->first();
 
         $user_all = Category::where('user_id', '=', $user->id)->with('passwords')->get();
@@ -54,10 +53,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $data_token = $request->header('Authorization');
-        $token = new Token();
-        $user_email = $token->decode($data_token);
-        $user = User::where('email', '=', $user_email)->first();
+        $user = $request->user;
 
         $duplicate_category = Category::where('name', $request->name)->first();
       
@@ -89,10 +85,7 @@ class CategoryController extends Controller
      */
     public function show(Request $request, $id)
     {
-        $data_token = $request->header('Authorization');
-        $token = new Token();
-        $user_email = $token->decode($data_token);
-        $user = User::where('email', '=', $user_email)->first();
+        $user = $request->user;
 
         return response()->json([
             "categorias creadas" => $user->categories
@@ -119,10 +112,7 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data_token = $request->header('Authorization');
-        $token = new Token();
-        $user_email = $token->decode($data_token);
-        $user = User::where('email', '=', $user_email)->first();
+        $user = $request->user;
 
         $category = Category::find($id);                 
         
@@ -151,10 +141,7 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $data_token = $request->header('Authorization');
-        $token = new Token();
-        $user_email = $token->decode($data_token);
-        $user = User::where('email', '=', $user_email)->first();
+        $user = $request->user;  
 
         $category = Category::find($id);
         $user= $category->user;
