@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
+use App\Helpers\Token;
 use Illuminate\Http\Request;
+
 
 class UserController extends Controller
 {
@@ -39,6 +42,13 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->password = $request->password;
         $user->save();
+
+        $token = new Token($user->email);
+        $encoded_token = $token->encode();
+
+        return response()->json([
+            "token" => $encoded_token,
+        ], 200);
     }
 
     /**
