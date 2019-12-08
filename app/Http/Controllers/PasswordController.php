@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Password;
 use App\Category;
-
+use App\User;
+use App\Helpers\Token;
 use Illuminate\Http\Request;
 
 
@@ -107,11 +108,29 @@ class PasswordController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $password = Password::where('id','=', $id)->first();
-        //var_dump($request->title); exit;
-        $password->title = $request->title;
-        $password->password= $request->password;
-        $password->save();
+        $data_token = $request->header('Authorization');
+        $token = new Token();
+        $user_email = $token->decode($data_token);
+        $user = User::where('email', '=', $user_email)->first();
+
+        $password = Password::find($id);
+        $category = $password->category;
+        $user = $category->user;
+
+        if($request_user == $user)
+        {
+            $password->title = $request->title;
+            $password->password = $request->password;
+            $password->save();
+            return response()->json([
+                "message" => "Contraseña actualizada",
+            ], 200);
+            
+        }else{
+            return response()->json([
+                "message" => "no tiene autorización",
+            ], 200);
+        }
     }
 
     /**
