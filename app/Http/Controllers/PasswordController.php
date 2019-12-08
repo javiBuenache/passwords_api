@@ -17,7 +17,11 @@ class PasswordController extends Controller
      */
     public function index()
     {
-        //
+        $passwords = Password::all();
+        
+        return response()->json([
+            "passwords" => $passwords
+        ], 200);
     }
 
     /**
