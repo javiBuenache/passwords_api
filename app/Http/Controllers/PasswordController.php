@@ -44,10 +44,7 @@ class PasswordController extends Controller
     public function store(Request $request)
     {
 
-        $data_token = $request->header('Authorization');
-        $token = new Token();
-        $user_email = $token->decode($data_token);
-        $user = User::where('email', '=', $user_email)->first();
+        $user = $request->user;
 
         $category = Category::where('name', $request->category)->first();
 
@@ -79,10 +76,7 @@ class PasswordController extends Controller
      */
     public function show(Request $request, $id)
     {
-        $data_token = $request->header('Authorization');
-        $token = new Token();
-        $user_email = $token->decode($data_token);
-        $user = User::where('email', '=', $user_email)->first();
+        $user = $request->user;
 
         return response()->json([
             "passwords" => $user->passwords
@@ -109,10 +103,7 @@ class PasswordController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data_token = $request->header('Authorization');
-        $token = new Token();
-        $user_email = $token->decode($data_token);
-        $user = User::where('email', '=', $user_email)->first();
+        $user = $request->user;
 
         $password = Password::find($id);
         $category = $password->category;
@@ -123,6 +114,7 @@ class PasswordController extends Controller
             $password->title = $request->title;
             $password->password = $request->password;
             $password->save();
+
             return response()->json([
                 "message" => "Contraseña actualizada",
             ], 200);
@@ -142,15 +134,13 @@ class PasswordController extends Controller
      */
     public function destroy($id)
     {
-        $data_token = $request->header('Authorization');
-        $token = new Token();
-        $user_email = $token->decode($data_token);
-        $user = User::where('email', '=', $user_email)->first();
+         $user = $request->user;
 
         $password = Password::find($id);
         $category = $password->category;
+        $user = $category->user;
                 
-        if( $user->id == $category->user_id)
+        if($request_user == $user)
         {
             $password->delete();
 

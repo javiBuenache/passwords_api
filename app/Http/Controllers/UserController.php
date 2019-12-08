@@ -19,13 +19,13 @@ class UserController extends Controller
         if($user->password == $request->password)
         {
             return response()->json([
-                "token" => $encoded_token,
+                "token" => $encoded_token
             ], 200 );
         
         }else
         {
             return response()->json([
-                "message" => "unauthorized"
+                "message" => "no tiene permisos"
             ], 401);
         }
     }
@@ -72,7 +72,7 @@ class UserController extends Controller
         $encoded_token = $token->encode();
 
         return response()->json([
-            "token" => $encoded_token,
+            "token" => $encoded_token
         ], 200);
     }
 
@@ -118,11 +118,20 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::find($id);
-        $user->delete();  
-        
-        return response()->json([
-            "message" => "usuario borrado"
-        ], 201 );
+        $user = $request->user;
+
+        if($user->id == $id)
+        {
+            $user->delete();  
+            return response()->json([
+                "message" => "usuario borrado"
+            ], 200);
+
+        }else
+        {
+            return response()->json([
+                "message" => "no tiene permisos"
+            ], 401);
+         }
     }
 }
