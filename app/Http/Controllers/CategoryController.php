@@ -59,7 +59,14 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        //
+        $data_token = $request->header('Authorization');
+        $token = new Token();
+        $user_email = $token->decode($data_token);
+        $user = User::where('email', '=', $user_email)->first();
+
+        return response()->json([
+            "categorias creadas" => $user->categories
+        ], 200);
     }
 
     /**
@@ -112,7 +119,7 @@ class CategoryController extends Controller
         else
         {
             return response()->json([
-                "message" => "no se puede borrar una categoría"
+                "message" => "no se puede borrar la categoría"
             ], 401);
         }
     }
