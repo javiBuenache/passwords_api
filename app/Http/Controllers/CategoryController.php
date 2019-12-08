@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\User;
+use App\Helpers\Token;
 
 use Illuminate\Http\Request;
 
@@ -40,16 +42,26 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $category = new Category();
-        $category->name = $request->name;
-        $category->user_id = $user->id;
-        $category->save();
+        $data_token = $request->header('Authorization');
+        $token = new Token();
+        $user_email = $token->decode($data_token);
+        $user = User::where('email', '=', $user_email)->first();
 
-        return response()->json([
-            "message" => "categoria creada"
+        $duplicate_category = Category::where('name', $request->name)->first();
+      
+        if($duplicate_category == null)
+        {
+            $category = new Category();
+            $category->name = $request->name;
+            $category->user_id = $user->id;
+            $category->save();
             
-        ], 200);
-    }
+            return response()->json([
+                "message" => "categoria creada"
+                
+            ], 200);
+        }
+    }    
 
     /**
      * Display the specified resource.
