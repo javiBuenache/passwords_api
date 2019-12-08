@@ -42,6 +42,15 @@ class PasswordController extends Controller
      */
     public function store(Request $request)
     {
+
+        $data_token = $request->header('Authorization');
+        $token = new Token();
+        $user_email = $token->decode($data_token);
+        $user = User::where('email', '=', $user_email)->first();
+
+        $category = Category::where('name', $request->category)->first();
+        if($category->user_id == $user->id)
+        {
         $password = new Password();
         $password->title = $request->title;
         $password->password = $request->password;
@@ -51,6 +60,13 @@ class PasswordController extends Controller
         return response()->json([
             "message" => "contrasena creada"
         ], 201 );
+
+         } else
+        {
+        return response()->json([
+            "message" => " categoría no encontrada"
+        ], 400);
+        }
     }
 
     /**
@@ -111,7 +127,7 @@ class PasswordController extends Controller
                 "message" => "password borrado"
     
             ], 201 );
-            
+
         }else
         {
             return response()->json([
