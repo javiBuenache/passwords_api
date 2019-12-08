@@ -10,6 +10,18 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+
+    public function show_all_passwords_and_categories(Request $request)
+    {
+        $data_token = $request->header('Authorization');
+        $token = new Token();
+        $user_email = $token->decode($data_token);
+        $user = User::where('email', '=', $user_email)->first();
+
+        $user_all = Category::where('user_id', '=', $user->id)->with('passwords')->get();
+       
+        return response()->json($user_all, 400);
+    }
     /**
      * Display a listing of the resource.
      *
