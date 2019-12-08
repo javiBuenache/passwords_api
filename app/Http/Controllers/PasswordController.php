@@ -18,7 +18,7 @@ class PasswordController extends Controller
     public function index()
     {
         $passwords = Password::all();
-        
+
         return response()->json([
             "passwords" => $passwords
         ], 200);
@@ -95,6 +95,28 @@ class PasswordController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $data_token = $request->header('Authorization');
+        $token = new Token();
+        $user_email = $token->decode($data_token);
+        $user = User::where('email', '=', $user_email)->first();
+
+        $password = Password::find($id);
+        $category = $password->category;
+                
+        if( $user->id == $category->user_id)
+        {
+            $password->delete();
+
+            return response()->json([
+                "message" => "password borrado"
+    
+            ], 201 );
+            
+        }else
+        {
+            return response()->json([
+                "message" => "no se puede borrar un password ajeno"
+            ], 401);
+        }
     }
 }
