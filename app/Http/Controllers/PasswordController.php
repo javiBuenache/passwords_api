@@ -75,13 +75,13 @@ class PasswordController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $data_token = $request->header('Authorization');
         $token = new Token();
         $user_email = $token->decode($data_token);
         $user = User::where('email', '=', $user_email)->first();
-        
+
         return response()->json([
             "passwords" => $user->passwords
         ], 200);
