@@ -107,7 +107,25 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request_user = $request->user;   
+
+        $user = User::find($id);
+        
+        if($request_user->id == $user->id)
+        {            
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->password = $request->password;
+            $user->save();   
+            
+            response()->json([
+                "message" => "usuario modificado"
+            ], 200);
+        }else{
+            response()->json([
+                "message" => "no tiene permisos"
+            ], 200);
+        }
     }
 
     /**
