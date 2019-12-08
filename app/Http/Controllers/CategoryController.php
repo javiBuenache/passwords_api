@@ -61,6 +61,12 @@ class CategoryController extends Controller
                 
             ], 200);
         }
+        else
+        {
+        return response()->json([
+            "message" => "ya existe esta categoría"
+        ], 200);
+        }
     }    
 
     /**
