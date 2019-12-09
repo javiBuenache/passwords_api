@@ -19,4 +19,12 @@ class Category extends Model
     {
         return $this->hasMany(Password::class);
     }
+
+    public function register($name,$user_id)
+    {
+        $category = new Category;
+        $category->name = $name;
+        $category->user_id = $user_id;
+        $category->save();
+    }
 }

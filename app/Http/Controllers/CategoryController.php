@@ -60,9 +60,7 @@ class CategoryController extends Controller
         if($duplicate_category == null)
         {
             $category = new Category();
-            $category->name = $request->name;
-            $category->user_id = $user->id;
-            $category->save();
+            $category->register($request);
             
             return response()->json([
                 "message" => "categoria creada"  
