@@ -22,21 +22,20 @@ class User extends Model
 
     Public function checkUsers($email)
     {
-        $users = self::where('email',$email)->get();
+        $users = self::where('email',$email)->first();
         
-        foreach ($users as $key => $value) 
+       if(!is_null($users))
         {
-            if($value->email == $email){
-                return true;
-            }
+            return true;
         }
+
         return false;
     }
 
 
     public function categories()
     {
-        return $this->hasMany(Category::class);
+        return $this->hasMany('App\Category','user_id');
     }
 
     public function passwords()

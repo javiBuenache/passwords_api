@@ -64,17 +64,17 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $user = new User();
-
+       
         if(!$user->checkUsers($request->email))
         {
+            
             $user->register($request);
 
             $token = new Token($user->email);
             $encoded_token = $token->encode();
-    
-            return response()->json([
-                "token" => $encoded_token
-            ], 200);
+        
+            return response()->json(["token" => $encoded_token
+                ], 200);
         }
         else
         {
@@ -91,7 +91,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+       
     }
 
     /**
