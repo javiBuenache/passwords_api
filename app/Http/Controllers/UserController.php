@@ -20,7 +20,7 @@ class UserController extends Controller
                 400
             );
         }
-        
+
         $user = User::where('email', $request->email)->first();
         $token = new Token($user->email);
         $encoded_token = $token->encode();
@@ -108,7 +108,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-       
+       //
     }
 
     /**

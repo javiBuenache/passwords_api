@@ -35,7 +35,7 @@ class User extends Model
 
     public function categories()
     {
-        return $this->hasMany('App\Category','user_id');
+        return $this->hasMany(Category::class);
     }
 
     public function passwords()

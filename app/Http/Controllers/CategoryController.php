@@ -51,9 +51,10 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $category = new Category();
 
         $user = $request->user;
+
+        $category = new Category();
 
         $duplicate_category = Category::where('name', $request->name)->where('user_id',$user->id)->first();
       

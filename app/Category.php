@@ -13,12 +13,12 @@ class Category extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo(User::class);
     }
+
     public function passwords()
-    
     {
-        return $this->hasMany('App\Password','category_id');
+        return $this->hasMany(Password::class);
     }
 
     public function register($name, $user_id)
