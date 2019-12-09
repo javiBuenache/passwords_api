@@ -63,6 +63,15 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+
+        if ($request->name == null || $request->email == null || $request->password == null) 
+        {
+            return response()->json([
+                'alert' => 'Error: Inserte un nonbre, un email y un password'],
+                400
+         );
+        }
+        
         $user = new User();
        
         if(!$user->checkUsers($request->email))
