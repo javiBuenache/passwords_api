@@ -15,9 +15,7 @@ class CategoryController extends Controller
     {
         $user = $request->user; 
 
-        $user = User::where('email', '=', $user_email)->first();
-
-        $user_all = Category::where('user_id', '=', $user->id)->with('passwords')->get();
+        $user_all = Category::where('user_id', $user->id)->with('passwords')->get();
        
         return response()->json($user_all, 400);
     }

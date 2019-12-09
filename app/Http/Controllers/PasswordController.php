@@ -46,15 +46,13 @@ class PasswordController extends Controller
       
         $user = $request->user;
 
-        //$user_email = $request->user->email;
-        
-       // $user = User::where('email', $user_email)->first();
-
         $category = Category::where('user_id', $user->id)->where('name', $request->name)->first();
+
         if (isset($category)) 
         {
             $password = new Password();
             $password->register($request, $category->id);
+            
             return response()->json(['Message' => 'Password creada'], 201);    
         }
         else {
