@@ -13,6 +13,14 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
+        if ($request->email == null || $request->password == null) 
+        {
+            return response()->json([
+                'alert' => 'Error: Inserte un email y un password'],
+                400
+            );
+        }
+        
         $user = User::where('email', $request->email)->first();
         $token = new Token($user->email);
         $encoded_token = $token->encode();
@@ -71,7 +79,7 @@ class UserController extends Controller
                 400
          );
         }
-        
+
         $user = new User();
        
         if(!$user->checkUsers($request->email))
