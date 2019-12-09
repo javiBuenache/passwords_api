@@ -20,6 +20,20 @@ class User extends Model
         $user->save();
     }
 
+    Public function checkUsers($email)
+    {
+        $users = self::where('email',$email)->get();
+        
+        foreach ($users as $key => $value) 
+        {
+            if($value->email == $email){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
     public function categories()
     {
         return $this->hasMany(Category::class);

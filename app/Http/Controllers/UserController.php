@@ -63,15 +63,24 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $user = new User;
-        $user->register($request);
+        $user = new User();
 
-        $token = new Token($user->email);
-        $encoded_token = $token->encode();
+        if(!$user->checkUsers($request->email))
+        {
+            $user->register($request);
 
-        return response()->json([
-            "token" => $encoded_token
-        ], 200);
+            $token = new Token($user->email);
+            $encoded_token = $token->encode();
+    
+            return response()->json([
+                "token" => $encoded_token
+            ], 200);
+        }
+        else
+        {
+            return response()->json(["Error" => "este correo ya existe"]);
+        }
+    
     }
 
     /**
@@ -111,7 +120,7 @@ class UserController extends Controller
         
         if($user_change->id == $user->id)
         {            
-            $user = new User;
+            $user = new User();
             $user->register($request);
             
             return response()->json([
