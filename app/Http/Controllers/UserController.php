@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Helpers\Token;
+use App\Category;
 use Illuminate\Http\Request;
 
 
@@ -63,10 +64,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $user = new User;
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = $request->password;
-        $user->save();
+        $user->register($request);
 
         $token = new Token($user->email);
         $encoded_token = $token->encode();
