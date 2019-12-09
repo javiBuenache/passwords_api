@@ -114,8 +114,8 @@ class PasswordController extends Controller
         }else
         {
             return response()->json([
-                "message" => "no tiene autorización"
-            ], 200);
+                "message" => "no permisos"
+            ], 401);
         }
     }
 
