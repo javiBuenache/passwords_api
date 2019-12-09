@@ -53,25 +53,22 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        $category = new Category();
+
         $user = $request->user;
 
-        $duplicate_category = Category::where('name', $request->name)->first();
+        $duplicate_category = Category::where('name', $request->name)->where('user_id',$user->id)->first();
       
-        if($duplicate_category == null)
+        if (isset($duplicate_category)) 
         {
-            $category = new Category();
-            $category->register($request);
-            
-            return response()->json([
-                "message" => "categoria creada"  
-            ], 200);
+            return response()->json(["Error" => "el nombre ya existe"], 401);
         }
         else
         {
-        return response()->json([
-            "message" => "ya existe esta categoría"
-        ], 200);
-        }
+           $category->register($request->name,$user->id);
+
+           return response()->json(["Success" => "categoria creada"], 201);
+        }        
     }    
 
     /**

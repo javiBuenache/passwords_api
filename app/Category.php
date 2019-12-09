@@ -1,6 +1,7 @@
 <?php
 
 namespace App;
+use Illuminate\Http\Request;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,11 +21,13 @@ class Category extends Model
         return $this->hasMany(Password::class);
     }
 
-    public function register($name,$user_id)
+    public function register($name, $user_id)
     {
         $category = new Category;
         $category->name = $name;
         $category->user_id = $user_id;
         $category->save();
+
+        return $category;
     }
 }
