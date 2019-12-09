@@ -25,5 +25,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
         Route::ApiResource('users', 'UserController');
         Route::ApiResource('categories', 'CategoryController');
         Route::ApiResource('passwords', 'PasswordController');
+        Route::get('show_all_passwords_and_categories', 'CategoryController@show_all_passwords_and_categories');
    
 });
