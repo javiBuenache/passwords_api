@@ -51,10 +51,7 @@ class PasswordController extends Controller
         if($category->user_id == $user->id)
         {
             $password = new Password();
-            $password->title = $request->title;
-            $password->password = $request->password;
-            $password->category_id = $category->id;             
-            $password->save();
+            $password->register($request);
 
             return response()->json([
                 "message" => "contrasena creada"
