@@ -21,9 +21,10 @@ class CheckAuth
         $token = new Token();
         
         $user_email = $token->decode($data_token);
-        $user = User::where('email', '=', $user_email)->first();
+        $user = User::where('email', $user_email)->first();
+
         $request->request->add(['user' => $user]);
-        
+
         if($user != null)
         {
             return $next($request);

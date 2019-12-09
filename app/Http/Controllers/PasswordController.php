@@ -43,25 +43,22 @@ class PasswordController extends Controller
      */
     public function store(Request $request)
     {
-
+      
         $user = $request->user;
 
-        $category = Category::where('name', $request->category)->first();
+        //$user_email = $request->user->email;
+        
+       // $user = User::where('email', $user_email)->first();
 
-        if($category->user_id == $user->id)
+        $category = Category::where('user_id', $user->id)->where('name', $request->name)->first();
+        if (isset($category)) 
         {
             $password = new Password();
-            $password->register($request);
-
-            return response()->json([
-                "message" => "contrasena creada"
-            ], 201 );
-
-         } else
-        {
-            return response()->json([
-                "message" => " categoría no encontrada"
-            ], 400);
+            $password->register($request, $category->id);
+            return response()->json(['Message' => 'Password creada'], 201);    
+        }
+        else {
+            return response()->json(['Message' => 'No se ha podido crear'], 401);    
         }
     }
 

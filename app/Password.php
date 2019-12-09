@@ -1,7 +1,7 @@
 <?php
 
 namespace App;
-
+use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 
 class Password extends Model
@@ -14,12 +14,14 @@ class Password extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function register($title, $password, $category_id)
+    public function register(Request $request,$category)
     {
         $password = new Password();
         $password->title = $request->title;
         $password->password = $request->password;
-        $password->category_id = $category->id;             
+        $password->category_id = $category;
         $password->save();
+
+        return $password;
     }
 }
