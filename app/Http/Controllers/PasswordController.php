@@ -52,7 +52,7 @@ class PasswordController extends Controller
         {
             $password = new Password();
             $password->register($request, $category->id);
-            
+
             return response()->json(['Message' => 'Password creada'], 201);    
         }
         else {
@@ -95,23 +95,24 @@ class PasswordController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = $request->user;
+        $user_new = $request->user;
 
         $password = Password::find($id);
         $category = $password->category;
         $user = $category->user;
 
-        if($request_user == $user)
+        if($user_new == $user)
         {
             $password->title = $request->title;
             $password->password = $request->password;
             $password->save();
 
             return response()->json([
-                "message" => "Contraseña actualizada"
+                "message" => "password actualizada"
             ], 200);
             
-        }else{
+        }else
+        {
             return response()->json([
                 "message" => "no tiene autorización"
             ], 200);
