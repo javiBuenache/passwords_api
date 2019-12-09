@@ -116,12 +116,12 @@ class PasswordController extends Controller
             $password->save();
 
             return response()->json([
-                "message" => "Contraseña actualizada",
+                "message" => "Contraseña actualizada"
             ], 200);
             
         }else{
             return response()->json([
-                "message" => "no tiene autorización",
+                "message" => "no tiene autorización"
             ], 200);
         }
     }
@@ -146,7 +146,6 @@ class PasswordController extends Controller
 
             return response()->json([
                 "message" => "password borrado"
-    
             ], 201 );
 
         }else

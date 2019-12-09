@@ -65,8 +65,7 @@ class CategoryController extends Controller
             $category->save();
             
             return response()->json([
-                "message" => "categoria creada"
-                
+                "message" => "categoria creada"  
             ], 200);
         }
         else
@@ -121,13 +120,11 @@ class CategoryController extends Controller
             $category->name = $request->name;       
             $category->save();
             return response()->json([
-                "message" => "category actualizada",
-    
+                "message" => "category actualizada"
             ], 200);
         }else{
             return response()->json([
-                "message" => "no tiene permisos",
-    
+                "message" => "no tiene permisos"
             ], 401);
   
         }
