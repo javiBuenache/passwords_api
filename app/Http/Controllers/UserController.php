@@ -13,7 +13,7 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
-        $user = User::where('email', '=', $request->email)->first();
+        $user = User::where('email', $request->email)->first();
         $token = new Token($user->email);
         $encoded_token = $token->encode();
 
@@ -105,24 +105,24 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request_user = $request->user;   
+        $user_change = $request->user;   
 
         $user = User::find($id);
         
-        if($request_user->id == $user->id)
+        if($user_change->id == $user->id)
         {            
-            $user->name = $request->name;
-            $user->email = $request->email;
-            $user->password = $request->password;
-            $user->save();   
+            $user = new User;
+            $user->register($request);
             
-            response()->json([
+            return response()->json([
                 "message" => "usuario modificado"
             ], 200);
-        }else{
-            response()->json([
+        }
+        else
+        {
+           return response()->json([
                 "message" => "no tiene permisos"
-            ], 200);
+            ], 401);
         }
     }
 
@@ -132,7 +132,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $user = $request->user;
 

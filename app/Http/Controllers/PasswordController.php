@@ -56,7 +56,7 @@ class PasswordController extends Controller
             return response()->json(['Message' => 'Password creada'], 201);    
         }
         else {
-            return response()->json(['Message' => 'No se ha podido crear'], 401);    
+            return response()->json(['Message' => 'No tiene permisos'], 401);    
         }
     }
 
