@@ -17,7 +17,7 @@ class CategoryController extends Controller
 
         $user_all = Category::where('user_id', $user->id)->with('passwords')->get();
        
-        return response()->json($user_all, 400);
+        return response()->json($user_all, 200);
     }
     /**
      * Display a listing of the resource.
